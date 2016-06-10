@@ -15,8 +15,8 @@
         Tagprefix="WebPartPages"
         Namespace="Microsoft.SharePoint.WebPartPages"
         Assembly="Microsoft.SharePoint, Version=12.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c" %>
-<asp:Content ContentPlaceHolderId="PlaceHolderPageTitle" runat="server">Light Board</asp:Content>
-<asp:Content ContentPlaceHolderId="PlaceHolderPageTitleInTitleArea" runat="server">Light Board</asp:Content>
+<asp:Content ContentPlaceHolderId="PlaceHolderPageTitle" runat="server">Kanban Board</asp:Content>
+<asp:Content ContentPlaceHolderId="PlaceHolderPageTitleInTitleArea" runat="server">Kanban Board</asp:Content>
 <asp:Content ContentPlaceHolderId="PlaceHolderAdditionalPageHead" runat="server">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
