@@ -31,7 +31,7 @@
         <script src="//cdnjs.cloudflare.com/ajax/libs/es5-shim/4.1.13/es5-sham.min.js">
     <![endif]-->
 
-    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css?_1465543263591">
+    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css?_1465545554792">
 
 </asp:Content>
 <asp:Content ContentPlaceHolderId="PlaceHolderSearchArea" runat="server">
@@ -25023,7 +25023,30 @@ scripts_main = function (template, $, board, getSiteListCollection, getListColum
     },
     //end: main
     setupMenu = function () {
-      var $lists = inst.$appCntr.find('div.light-board-menu-lists > select'), $fields = inst.$appCntr.find('div.light-board-menu-columns > select'), $kanban = inst.$appCntr.find('div.light-board-kanban');
+      var $menu = inst.$appCntr.find('div.light-board-menu'), $lists = inst.$appCntr.find('div.light-board-menu-lists > select'), $fields = inst.$appCntr.find('div.light-board-menu-columns > select'), $kanban = inst.$appCntr.find('div.light-board-kanban');
+      // get URL parameters
+      var params = {};
+      if (location.search) {
+        var parts = location.search.substring(1).split('&');
+        for (var i = 0; i < parts.length; i++) {
+          var nv = parts[i].split('=');
+          if (!nv[0]) {
+            continue;
+          }
+          params[nv[0]] = nv[1] || true;
+        }
+      }
+      // console.log(params.list);
+      // console.log(params.field);
+      // when set build board from URL parameters, remove selection
+      if (params.list && params.field) {
+        $menu.remove();
+        board($('<div/>').appendTo($kanban.empty()), {
+          list: params.list,
+          field: params.field
+        });
+        return main;
+      }
       getSiteListCollection().then(function (siteLists) {
         var listOptions = siteLists.reduce(function (optionsHtml, list) {
           optionsHtml += '<option value="' + list.InternalName + '">' + list.Title + '</option>';
@@ -25036,6 +25059,7 @@ scripts_main = function (template, $, board, getSiteListCollection, getListColum
           if (!$lists.val()) {
             return;
           }
+          // console.log($lists.val());
           getListColumns({ listName: $lists.val() }).then(function (listColumns) {
             var colOptions = listColumns.reduce(function (html, column) {
               if (column.Type === 'Lookup' || column.Type === 'Choice') {
@@ -25050,6 +25074,7 @@ scripts_main = function (template, $, board, getSiteListCollection, getListColum
           if (!$fields.val()) {
             return;
           }
+          // console.log($fields.val());
           board($('<div/>').appendTo($kanban.empty()), {
             list: $lists.val(),
             field: $fields.val()
